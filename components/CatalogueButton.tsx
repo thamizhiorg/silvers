@@ -1,11 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import { useRouter } from 'expo-router';
 import Colors from '../constants/Colors';
 
 export default function CatalogueButton({ style, ...props }: TouchableOpacityProps) {
+  const router = useRouter();
+
+  const handlePress = () => {
+    router.push('/categories');
+  };
+
   return (
     <TouchableOpacity
       style={[styles.button, style]}
+      onPress={handlePress}
       {...props}
     >
       <Text style={styles.text}>CATALOGUE</Text>

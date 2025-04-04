@@ -75,13 +75,10 @@ export default function HomeScreen() {
         </View>
       </ImageBackground>
 
-      {/* Fine Favorites Section */}
+      {/* Favourites Section */}
       <View style={styles.sectionContainer}>
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>fine favorites</Text>
-          <TouchableOpacity>
-            <Text style={styles.seeAllText}>SEE ALL</Text>
-          </TouchableOpacity>
+          <Text style={styles.sectionTitle}>favourites</Text>
         </View>
 
         {loading ? (
@@ -104,7 +101,7 @@ export default function HomeScreen() {
       {/* All Products Section */}
       <View style={styles.sectionContainer}>
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>all collections</Text>
+          <Text style={styles.sectionTitle}>all products</Text>
         </View>
 
         {loading ? (
@@ -201,6 +198,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
+    width: '100%',
+    alignItems: 'flex-start', // Ensure items align at the top
+    paddingHorizontal: 5, // Add some padding to account for card margins
   },
   loadingContainer: {
     padding: 20,
