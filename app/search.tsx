@@ -12,7 +12,7 @@ export default function SearchScreen() {
   return (
     <View style={styles.container}>
       <Header showBackButton />
-      
+
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background,
-    paddingTop: 60,
+    paddingTop: 20,
   },
   searchContainer: {
     flexDirection: 'row',

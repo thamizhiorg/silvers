@@ -7,6 +7,8 @@ export interface Product {
   description?: string;
   materials?: string;
   sizes?: number[];
+  weight?: string | null;
+  designs?: any[];
 }
 
 export interface Category {
