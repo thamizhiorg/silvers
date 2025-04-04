@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator, FlatList, Alert } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
@@ -8,18 +8,21 @@ import Header from '../../components/Header';
 import Button from '../../components/Button';
 import { getProducts } from '../../utils/api';
 import { Product } from '../../types';
+import { useAppContext } from '../../context/AppContext';
 
 const { width } = Dimensions.get('window');
 
 export default function ProductScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
+  const { addToCart, toggleFavorite, isFavorite: checkIsFavorite } = useAppContext();
   const [selectedSize, setSelectedSize] = useState<number | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [product, setProduct] = useState<Product | null>(null);
   const [selectedDesign, setSelectedDesign] = useState<number>(0);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -31,12 +34,16 @@ export default function ProductScreen() {
         if (foundProduct) {
           setProduct(foundProduct);
           setError(null);
+          // Check if product is in favorites
+          setIsFavorite(checkIsFavorite(foundProduct.id));
         } else {
           // Fallback to mock products if API product not found
           const mockProduct = PRODUCTS.find((p) => p.id === id);
           if (mockProduct) {
             setProduct(mockProduct);
             setError(null);
+            // Check if product is in favorites
+            setIsFavorite(checkIsFavorite(mockProduct.id));
           } else {
             setError('Product not found');
           }
@@ -49,6 +56,8 @@ export default function ProductScreen() {
         const mockProduct = PRODUCTS.find((p) => p.id === id);
         if (mockProduct) {
           setProduct(mockProduct);
+          // Check if product is in favorites
+          setIsFavorite(checkIsFavorite(mockProduct.id));
         }
       } finally {
         setLoading(false);
@@ -56,7 +65,7 @@ export default function ProductScreen() {
     };
 
     loadProduct();
-  }, [id]);
+  }, [id, checkIsFavorite]);
 
   if (loading) {
     return (
@@ -196,10 +205,30 @@ export default function ProductScreen() {
 
           {/* Add to Cart Button */}
           <View style={styles.addToCartContainer}>
-            <Button title="ADD TO CART" style={styles.addToCartButton} />
-            <Text style={styles.priceText}>$ {product.price}</Text>
-            <TouchableOpacity style={styles.favoriteButton}>
-              <Ionicons name="heart-outline" size={24} color={Colors.primary} />
+            <Button
+              title="ADD TO CART"
+              style={styles.addToCartButton}
+              onPress={() => {
+                if (product.sizes && product.sizes.length > 0 && !selectedSize) {
+                  Alert.alert('Please select a size');
+                  return;
+                }
+                addToCart(product, quantity, selectedSize || undefined);
+                Alert.alert('Success', 'Product added to cart!');
+              }}
+            />
+            <TouchableOpacity
+              style={styles.favoriteButton}
+              onPress={() => {
+                toggleFavorite(product);
+                setIsFavorite(!isFavorite);
+              }}
+            >
+              <Ionicons
+                name={isFavorite ? "heart" : "heart-outline"}
+                size={24}
+                color={isFavorite ? Colors.primary : Colors.darkGray}
+              />
             </TouchableOpacity>
           </View>
         </View>
@@ -346,17 +375,19 @@ const styles = StyleSheet.create({
   addToCartContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 20,
   },
   addToCartButton: {
     flex: 1,
     marginRight: 20,
   },
-  priceText: {
-    fontSize: 18,
-    fontWeight: '500',
-    marginRight: 20,
-  },
   favoriteButton: {
-    padding: 8,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
