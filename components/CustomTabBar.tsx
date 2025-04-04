@@ -45,8 +45,15 @@ export default function CustomTabBar({ state, navigation }: TabBarProps) {
         />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.tabItem}>
-        <Ionicons name="person-outline" size={24} color={Colors.primary} />
+      <TouchableOpacity
+        style={styles.tabItem}
+        onPress={() => navigation.navigate("profile")}
+      >
+        <Ionicons
+          name={state.index === 3 ? "person" : "person-outline"}
+          size={24}
+          color={Colors.primary}
+        />
       </TouchableOpacity>
 
       <TouchableOpacity

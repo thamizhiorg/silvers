@@ -11,7 +11,7 @@ import CustomTabBar from "../components/CustomTabBar";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [, setFontsLoaded] = useState(false);
 
   useEffect(() => {
     async function prepare() {
@@ -43,6 +43,7 @@ export default function RootLayout() {
         <Tabs.Screen name="index" />
         <Tabs.Screen name="categories" />
         <Tabs.Screen name="favorites" />
+        <Tabs.Screen name="profile" />
         <Tabs.Screen name="product/[id]" options={{ href: null }} />
         <Tabs.Screen name="search" options={{ href: null }} />
         <Tabs.Screen name="cart" />

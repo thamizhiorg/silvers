@@ -151,14 +151,17 @@ export default function ProductScreen() {
         <View style={styles.productInfo}>
           <Text style={styles.productName}>{product.name}</Text>
 
-          {/* Ring Size Selector */}
+          {/* Size Selector */}
           {product.sizes && product.sizes.length > 0 && (
             <View style={styles.sizeContainer}>
-              <Text style={styles.sectionTitle}>RING SIZE</Text>
-              <View style={styles.sizeOptions}>
-                {product.sizes.map((size) => (
+              <Text style={styles.sectionTitle}>SIZE</Text>
+              <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={product.sizes}
+                keyExtractor={(size) => `size-${size}`}
+                renderItem={({ item: size }) => (
                   <TouchableOpacity
-                    key={size}
                     style={[
                       styles.sizeOption,
                       selectedSize === size && styles.selectedSizeOption,
@@ -167,8 +170,9 @@ export default function ProductScreen() {
                   >
                     <Text style={styles.sizeText}>{size}</Text>
                   </TouchableOpacity>
-                ))}
-              </View>
+                )}
+                contentContainerStyle={styles.sizeOptionsList}
+              />
             </View>
           )}
 
@@ -313,8 +317,8 @@ const styles = StyleSheet.create({
   sizeContainer: {
     marginBottom: 20,
   },
-  sizeOptions: {
-    flexDirection: 'row',
+  sizeOptionsList: {
+    paddingVertical: 5,
   },
   sizeOption: {
     width: 50,
