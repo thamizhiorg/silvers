@@ -19,7 +19,6 @@ export default function CategoryCard({ category }: CategoryCardProps) {
         </View>
         <View style={styles.infoContainer}>
           <Text style={styles.name}>{category.name}</Text>
-          <Text style={styles.count}>{category.productCount} PRODUCTS</Text>
         </View>
       </TouchableOpacity>
     </Link>
@@ -33,6 +32,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 20,
     backgroundColor: Colors.background,
+    overflow: 'hidden',
   },
   imageContainer: {
     width: 100,
@@ -42,7 +42,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
-    backgroundColor: Colors.lightGray,
   },
   infoContainer: {
     flex: 1,
@@ -50,13 +49,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   name: {
-    fontSize: 16,
-    fontWeight: '400',
+    fontSize: 22,
+    fontWeight: '700',
     color: Colors.text,
-    marginBottom: 4,
-  },
-  count: {
-    fontSize: 12,
-    color: Colors.darkGray,
+    textTransform: 'capitalize',
   },
 });

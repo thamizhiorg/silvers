@@ -1,6 +1,15 @@
 import { Product, Category } from '../types';
 
-// Mock product images - in a real app, these would be actual image imports
+// Local category images from assets/images/categories
+const categoryImages = {
+  earrings: require('../assets/images/categories/earings.png'),
+  rings: require('../assets/images/categories/rings.png'),
+  bracelets: require('../assets/images/categories/bracelets.png'),
+  necklaces: require('../assets/images/categories/necklace.png'),
+  wedding: require('../assets/images/categories/weddings.png'),
+};
+
+// Mock product image for products
 const mockImage = require('../assets/images/icon.png');
 
 export const PRODUCTS: Product[] = [
@@ -70,31 +79,26 @@ export const CATEGORIES: Category[] = [
   {
     id: '1',
     name: 'earrings',
-    image: mockImage,
-    productCount: 100,
+    image: categoryImages.earrings,
   },
   {
     id: '2',
     name: 'rings',
-    image: mockImage,
-    productCount: 100,
+    image: categoryImages.rings,
   },
   {
     id: '3',
     name: 'bracelets',
-    image: mockImage,
-    productCount: 100,
+    image: categoryImages.bracelets,
   },
   {
     id: '4',
     name: 'necklaces & pendants',
-    image: mockImage,
-    productCount: 100,
+    image: categoryImages.necklaces,
   },
   {
     id: '5',
     name: 'wedding',
-    image: mockImage,
-    productCount: 100,
+    image: categoryImages.wedding,
   },
 ];

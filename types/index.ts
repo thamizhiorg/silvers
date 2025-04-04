@@ -15,5 +15,5 @@ export interface Category {
   id: string;
   name: string;
   image: any;
-  productCount: number;
+  productCount?: number;
 }
