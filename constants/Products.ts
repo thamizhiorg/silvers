@@ -2,6 +2,7 @@ import { Product, Category } from '../types';
 
 // Local category images from assets/images/categories
 const categoryImages = {
+  anklets: require('../assets/images/categories/anklets.png'),
   earrings: require('../assets/images/categories/earings.png'),
   rings: require('../assets/images/categories/rings.png'),
   bracelets: require('../assets/images/categories/bracelets.png'),
@@ -78,26 +79,31 @@ export const PRODUCTS: Product[] = [
 export const CATEGORIES: Category[] = [
   {
     id: '1',
+    name: 'anklets',
+    image: categoryImages.anklets,
+  },
+  {
+    id: '2',
     name: 'earrings',
     image: categoryImages.earrings,
   },
   {
-    id: '2',
+    id: '3',
     name: 'rings',
     image: categoryImages.rings,
   },
   {
-    id: '3',
+    id: '4',
     name: 'bracelets',
     image: categoryImages.bracelets,
   },
   {
-    id: '4',
+    id: '5',
     name: 'necklaces & pendants',
     image: categoryImages.necklaces,
   },
   {
-    id: '5',
+    id: '6',
     name: 'wedding',
     image: categoryImages.wedding,
   },

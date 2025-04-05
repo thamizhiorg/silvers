@@ -45,6 +45,7 @@ export default function RootLayout() {
         <Tabs.Screen name="favorites" />
         <Tabs.Screen name="profile" />
         <Tabs.Screen name="product/[id]" options={{ href: null }} />
+        <Tabs.Screen name="category/[id]" options={{ href: null }} />
         <Tabs.Screen name="search" options={{ href: null }} />
         <Tabs.Screen name="cart" />
       </Tabs>

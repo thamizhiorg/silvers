@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: '100%',
     alignItems: 'flex-start', // Ensure items align at the top
-    paddingHorizontal: 5, // Add some padding to account for card margins
+    paddingHorizontal: 2, // Reduced padding to give more space for cards
   },
   loadingContainer: {
     padding: 20,

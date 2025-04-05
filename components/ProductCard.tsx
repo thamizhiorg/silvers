@@ -10,7 +10,7 @@ interface ProductCardProps {
 }
 
 const { width } = Dimensions.get('window');
-const cardWidth = (width - 40) / 2; // 2 cards per row with some margin
+const cardWidth = (width - 50) / 2; // 2 cards per row with slightly more margin
 
 export default function ProductCard({ product, style }: ProductCardProps) {
   // Handle both URI and require() image sources
@@ -37,18 +37,18 @@ const platformStyles = {
   container: Platform.select({
     ios: {
       width: cardWidth,
-      flexBasis: '48%',
-      maxWidth: '48%',
+      flexBasis: '47%',
+      maxWidth: '47%',
     },
     android: {
       width: cardWidth,
-      flexBasis: '48%',
-      maxWidth: '48%',
+      flexBasis: '47%',
+      maxWidth: '47%',
     },
     web: {
       width: cardWidth,
-      flexBasis: '48%',
-      maxWidth: '48%',
+      flexBasis: '47%',
+      maxWidth: '47%',
     }
   })
 };
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginHorizontal: 5,
     position: 'relative',
-    minWidth: 140, // Minimum width to ensure readability
+    minWidth: 130, // Slightly reduced minimum width
   },
   cardContent: {
     width: '100%',
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '100%',
-    height: cardWidth,
+    height: cardWidth, // Height matches the new card width for square images
     borderRadius: 0,
     overflow: 'hidden',
     position: 'relative',
