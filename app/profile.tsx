@@ -1,19 +1,23 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import Colors from '../constants/Colors';
 import Header from '../components/Header';
 import Button from '../components/Button';
 import { useAppContext } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function ProfileScreen() {
   const { favorites, cart } = useAppContext();
+  const { user: authUser } = useAuth();
 
-  // Mock user data
+  // User data - use authenticated user email if available
   const user = {
     name: 'SKJ SILVERS',
-    email: 'skjsilvers@gmail.com',
+    email: authUser?.email || 'skjsilvers@gmail.com',
     phone: '+91 9876543210',
+    id: authUser?.id || 'Not signed in',
   };
 
   const menuItems = [
@@ -47,6 +51,12 @@ export default function ProfileScreen() {
       title: 'Help & Support',
       description: 'Contact us, FAQs, and more'
     },
+    {
+      icon: 'log-out-outline',
+      title: 'Sign Out',
+      description: 'Sign out from your account',
+      onPress: () => router.push('/sign-out')
+    },
   ];
 
   return (
@@ -66,6 +76,7 @@ export default function ProfileScreen() {
             <Text style={styles.userName}>{user.name}</Text>
             <Text style={styles.userEmail}>{user.email}</Text>
             <Text style={styles.userPhone}>{user.phone}</Text>
+            <Text style={styles.userId}>ID: {user.id}</Text>
           </View>
 
           <TouchableOpacity style={styles.editButton}>
@@ -98,28 +109,27 @@ export default function ProfileScreen() {
         {/* Menu Items */}
         <View style={styles.menuContainer}>
           {menuItems.map((item, index) => (
-            <TouchableOpacity key={index} style={styles.menuItem}>
+            <TouchableOpacity
+              key={index}
+              style={[styles.menuItem, item.title === 'Sign Out' && styles.signOutMenuItem]}
+              onPress={item.onPress}
+            >
               <View style={styles.menuIconContainer}>
-                <Ionicons name={item.icon} size={24} color={Colors.primary} />
+                <Ionicons
+                  name={item.icon}
+                  size={24}
+                  color={item.title === 'Sign Out' ? '#FF3B30' : Colors.primary}
+                />
               </View>
               <View style={styles.menuContent}>
-                <Text style={styles.menuTitle}>{item.title}</Text>
+                <Text style={[styles.menuTitle, item.title === 'Sign Out' && styles.signOutText]}>
+                  {item.title}
+                </Text>
                 <Text style={styles.menuDescription}>{item.description}</Text>
               </View>
               <Ionicons name="chevron-forward" size={20} color={Colors.darkGray} />
             </TouchableOpacity>
           ))}
-        </View>
-
-        {/* Logout Button */}
-        <View style={styles.logoutContainer}>
-          <Button
-            title="LOGOUT"
-            style={styles.logoutButton}
-            onPress={() => {
-              // Logout functionality would go here
-            }}
-          />
         </View>
       </ScrollView>
     </View>
@@ -165,6 +175,12 @@ const styles = StyleSheet.create({
   userPhone: {
     fontSize: 14,
     color: Colors.darkGray,
+    marginBottom: 2,
+  },
+  userId: {
+    fontSize: 12,
+    color: Colors.darkGray,
+    fontStyle: 'italic',
   },
   editButton: {
     width: 36,
@@ -232,11 +248,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: Colors.darkGray,
   },
-  logoutContainer: {
-    padding: 20,
-    marginBottom: 30,
+
+  signOutMenuItem: {
+    borderTopWidth: 1,
+    borderTopColor: Colors.lightGray,
+    marginTop: 10,
+    paddingTop: 15,
   },
-  logoutButton: {
-    backgroundColor: Colors.white,
+  signOutText: {
+    color: '#FF3B30',
   },
 });

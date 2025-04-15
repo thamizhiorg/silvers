@@ -1,17 +1,18 @@
-import { Tabs } from "expo-router";
+import { Stack } from "expo-router";
 import { StyleSheet } from "react-native";
 import Colors from "../constants/Colors";
 import { useEffect, useState } from "react";
 import { loadFonts } from "../utils/fonts";
 import * as SplashScreen from 'expo-splash-screen';
 import { AppProvider } from "../context/AppContext";
-import CustomTabBar from "../components/CustomTabBar";
+import { AuthProvider } from "../context/AuthContext";
+import 'react-native-get-random-values';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const [, setFontsLoaded] = useState(false);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
     async function prepare() {
@@ -30,26 +31,28 @@ export default function RootLayout() {
     prepare();
   }, []);
 
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
-    <AppProvider>
-      <Tabs
-        screenOptions={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarStyle: styles.tabBar,
-        }}
-        tabBar={props => <CustomTabBar {...props} />}
-      >
-        <Tabs.Screen name="index" />
-        <Tabs.Screen name="categories" />
-        <Tabs.Screen name="favorites" />
-        <Tabs.Screen name="profile" />
-        <Tabs.Screen name="product/[id]" options={{ href: null }} />
-        <Tabs.Screen name="category/[id]" options={{ href: null }} />
-        <Tabs.Screen name="search" options={{ href: null }} />
-        <Tabs.Screen name="cart" />
-      </Tabs>
-    </AppProvider>
+    <AuthProvider>
+      <AppProvider>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name="login" />
+          <Stack.Screen name="sign-out" />
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="product/[id]" />
+          <Stack.Screen name="category/[id]" />
+          <Stack.Screen name="search" />
+          <Stack.Screen name="cart" />
+          <Stack.Screen name="categories" />
+          <Stack.Screen name="favorites" />
+          <Stack.Screen name="profile" />
+        </Stack>
+      </AppProvider>
+    </AuthProvider>
   );
 }
 
